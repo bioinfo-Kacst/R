@@ -2,27 +2,28 @@ library("data.table")
 setwd("~/Desktop/coursera/4_Exploratory_Data_Analysis/project/data")
 
 Data <- data.table::fread(input = "household_power_consumption.txt"
-                             , na.strings="?"
-)
++                              , na.strings="?"
++ )
 
-Data[, Global_active_power := lapply(.SD, as.numeric), .SDcols = c("Global_active_power")]
+> Data[, Global_active_power := lapply(.SD, as.numeric), .SDcols = c("Global_active_power")]
 
 # Making a POSIXct date capable of being filtered and graphed by time of day
-Data[, dateTime := as.POSIXct(paste(Date, Time), format = "%d/%m/%Y %H:%M:%S")]
-
+> Data[, dateTime := as.POSIXct(paste(Date, Time), format = "%d/%m/%Y %H:%M:%S")]
 
 # Filter Dates
-Data <- Data[(dateTime >= "2007-02-01") & (dateTime < "2007-02-03")]
+> Data <- Data[(dateTime >= "2007-02-01") & (dateTime < "2007-02-03")]
 
-png("plot3.png", width=480, height=480)
+> png("plot3.png", width=480, height=480)
 
 # Plot 3
-plot(Data[, dateTime], Data[, Sub_metering_1], type="l", xlab="", ylab="Energy sub metering")
-lines(Data[, dateTime], Data[, Sub_metering_2],col="red")
-lines(Data[, dateTime], Data[, Sub_metering_3],col="blue")
-legend("topright"
-       , col=c("black","red","blue")
-       , c("Sub_metering_1  ","Sub_metering_2  ", "Sub_metering_3  ")
-       ,lty=c(1,1), lwd=c(1,1))
+> plot(Data[, dateTime], Data[, Sub_metering_1], type="l", xlab="", ylab="Energy sub metering")
+> lines(Data[, dateTime], Data[, Sub_metering_2],col="red")
+> lines(Data[, dateTime], Data[, Sub_metering_3],col="blue")
+> legend("topright"
++ , col=c("black","red","blue")
++ , c("Sub_metering_1  ","Sub_metering_2  ", "Sub_metering_3  ")
++ ,lty=c(1,1), lwd=c(1,1))
+
+
 
 dev.off()
